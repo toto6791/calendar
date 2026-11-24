@@ -71,8 +71,9 @@
   document.getElementById('nextMonth').addEventListener('click', function () {
     setMonth(new Date(current.getFullYear(), current.getMonth() + 1, 1));
   });
+  // „Днес“ отваря страницата на днешния ден
   document.getElementById('goToday').addEventListener('click', function () {
-    setMonth(today);
+    location.href = 'day.html?d=' + Dates.toKey(new Date());
   });
 
   // Плъзгане наляво/надясно на телефон сменя месеца
