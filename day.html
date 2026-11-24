@@ -36,10 +36,14 @@
 
     <form class="event-form" id="eventForm" autocomplete="off">
       <h2 class="section-title">Ново събитие</h2>
-      <label class="field">
-        <span>Час</span>
-        <input type="time" id="eventTime" name="time">
-      </label>
+      <fieldset class="field time-field">
+        <legend>Час</legend>
+        <div class="time-selects">
+          <select id="eventHour" name="hour" aria-label="Час"></select>
+          <span class="time-sep">:</span>
+          <select id="eventMinute" name="minute" aria-label="Минути"></select>
+        </div>
+      </fieldset>
       <label class="field">
         <span>Заглавие</span>
         <input type="text" id="eventTitle" name="title" maxlength="120" required placeholder="Напр. Среща с Иван">

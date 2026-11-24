@@ -8,6 +8,29 @@
   const list = document.getElementById('eventList');
   const empty = document.getElementById('emptyMsg');
   const form = document.getElementById('eventForm');
+  const hourSel = document.getElementById('eventHour');
+  const minuteSel = document.getElementById('eventMinute');
+
+  // Падащи списъци за час във формат 24 часа (00–23) и минути през 5
+  function fillTimeSelects() {
+    hourSel.appendChild(new Option('цял ден', ''));
+    for (let h = 0; h < 24; h++) {
+      const v = String(h).padStart(2, '0');
+      hourSel.appendChild(new Option(v, v));
+    }
+    for (let m = 0; m < 60; m += 5) {
+      const v = String(m).padStart(2, '0');
+      minuteSel.appendChild(new Option(v, v));
+    }
+    updateMinuteState();
+  }
+
+  // Минутите са активни само когато е избран час
+  function updateMinuteState() {
+    minuteSel.disabled = hourSel.value === '';
+  }
+  hourSel.addEventListener('change', updateMinuteState);
+  fillTimeSelects();
 
   // Заглавна част
   document.getElementById('dayNumber').textContent = date.getDate();
@@ -71,12 +94,13 @@
     const title = form.title.value.trim();
     if (!title) { form.title.focus(); return; }
     const ok = Storage.addEvent(key, {
-      time: form.time.value,
+      time: hourSel.value ? hourSel.value + ':' + minuteSel.value : '',
       title: title,
       note: form.note.value.trim()
     });
     if (ok) {
       form.reset();
+      updateMinuteState();
       render();
     }
   });
