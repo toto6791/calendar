@@ -31,6 +31,8 @@
   document.getElementById('nextDay').href = 'day.html?d=' + Dates.toKey(Dates.addDays(date, 1));
   document.getElementById('backLink').href = 'index.html#' + key.slice(0, 7);
 
+  let lastJson = '';
+
   // Бутон „Добави в календара на телефона“ / „Премахни“
   function phoneCalBlock(ev) {
     const box = document.createElement('div');
@@ -121,6 +123,7 @@
 
   function render() {
     const events = Storage.getEvents(key);
+    lastJson = JSON.stringify(events);
     list.innerHTML = '';
     empty.hidden = events.length > 0;
 
@@ -195,6 +198,13 @@
       location.href = document.getElementById(dx < 0 ? 'nextDay' : 'prevDay').href;
     }
     touchX = null;
+  });
+
+  // Нови данни от другото устройство
+  Storage.onChange(function (what) {
+    if (what !== 'data') return;
+    const json = JSON.stringify(Storage.getEvents(key));
+    if (json !== lastJson) { lastJson = json; render(); }
   });
 
   render();

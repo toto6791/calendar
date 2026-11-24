@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#2B4C7E">
+  <meta name="referrer" content="no-referrer">
+  <title>Синхронизация</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=5">
+</head>
+<body class="page-day page-settings">
+  <header class="day-bar">
+    <a class="back-link" href="index.html">‹ Календар</a>
+  </header>
+
+  <main class="day">
+    <h1 class="settings-title">Синхронизация</h1>
+    <p class="settings-lead">Събитията се пазят във файл <code>events.json</code> в частно хранилище в GitHub.
+      Въведете едни и същи данни на телефона и на компютъра, и двете устройства ще виждат едни и същи събития.</p>
+
+    <p class="sync-status" id="syncStatus"></p>
+
+    <details class="help">
+      <summary>Как да подготвя GitHub (еднократно)</summary>
+      <ol>
+        <li>В GitHub натиснете <b>New repository</b>. Име, напр. <code>kalendar-data</code>.
+          Изберете <b>Private</b> и отметнете <b>Add a README file</b>. Натиснете <b>Create repository</b>.</li>
+        <li>Отидете на <b>Settings → Developer settings → Personal access tokens → Fine-grained tokens</b>
+          и натиснете <b>Generate new token</b>.</li>
+        <li>Дайте име, изберете срок на валидност. При <b>Repository access</b> изберете
+          <b>Only select repositories</b> и посочете хранилището от стъпка 1.</li>
+        <li>При <b>Permissions → Repository permissions</b> намерете <b>Contents</b> и изберете <b>Read and write</b>.</li>
+        <li>Натиснете <b>Generate token</b> и копирайте ключа (започва с <code>github_pat_</code>).
+          GitHub го показва само веднъж.</li>
+        <li>Попълнете формата по-долу на всяко устройство.</li>
+      </ol>
+      <p>Ключът дава достъп само до това едно хранилище. Пази се само в браузъра на устройството.
+        Не го записвайте във файловете на сайта и не го качвайте в GitHub.</p>
+    </details>
+
+    <form class="event-form" id="settingsForm" autocomplete="off">
+      <label class="field">
+        <span>Потребителско име в GitHub</span>
+        <input type="text" id="owner" required autocapitalize="off" spellcheck="false" placeholder="напр. ivan-petrov">
+      </label>
+      <label class="field">
+        <span>Хранилище за данните</span>
+        <input type="text" id="repo" required autocapitalize="off" spellcheck="false" placeholder="kalendar-data">
+      </label>
+      <label class="field">
+        <span>Ключ (token)</span>
+        <input type="password" id="token" required autocapitalize="off" spellcheck="false" autocomplete="off" placeholder="github_pat_…">
+      </label>
+      <details class="advanced">
+        <summary>Допълнителни</summary>
+        <label class="field">
+          <span>Клон (branch)</span>
+          <input type="text" id="branch" autocapitalize="off" spellcheck="false" value="main">
+        </label>
+        <label class="field">
+          <span>Име на файла</span>
+          <input type="text" id="path" autocapitalize="off" spellcheck="false" value="events.json">
+        </label>
+      </details>
+      <button type="submit" class="primary-btn" id="saveBtn">Запази и провери</button>
+      <p class="form-msg" id="formMsg" role="status"></p>
+    </form>
+
+    <button type="button" class="cal-link forget-btn" id="forgetBtn" hidden>Премахни настройките от това устройство</button>
+  </main>
+
+  <script src="js/github.js?v=5"></script>
+  <script src="js/storage.js?v=5"></script>
+  <script src="js/syncstatus.js?v=5"></script>
+  <script src="js/settings.js?v=5"></script>
+</body>
+</html>

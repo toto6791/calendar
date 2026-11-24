@@ -87,5 +87,7 @@
 
   // Опресняване при връщане от страница на ден
   window.addEventListener('pageshow', render);
+  // Нови данни от другото устройство
+  Storage.onChange(function (what) { if (what === 'data') render(); });
   render();
 })();
