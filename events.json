@@ -1,14 +1,4 @@
 {
   "version": 1,
-  "events": {
-    "2026-11-24": [
-      {
-        "time": "16:40",
-        "title": "тест",
-        "note": "Тест",
-        "id": "mwusv51u3uix",
-        "created": 1795531112274
-      }
-    ]
-  }
+  "events": {}
 }
