@@ -1,15 +1,4 @@
 {
   "version": 1,
-  "events": {
-    "2026-11-24": [
-      {
-        "time": "22:20",
-        "title": "тест",
-        "note": "",
-        "id": "mwv50d7l6n6x",
-        "created": 1795551511521,
-        "phoneCal": "google"
-      }
-    ]
-  }
+  "events": {}
 }
