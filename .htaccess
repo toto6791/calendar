@@ -1,0 +1,10 @@
+# Забранява показването на съдържанието на папките (directory listing)
+Options -Indexes
+
+# Начална страница
+DirectoryIndex index.html
+
+# Скрива самия .htaccess и други скрити файлове
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>

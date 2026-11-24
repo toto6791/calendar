@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#2B4C7E">
+  <title>Календар</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-calendar">
+  <header class="month-bar">
+    <button class="nav-btn" id="prevMonth" aria-label="Предишен месец">‹</button>
+    <h1 id="monthTitle" class="month-title">Месец</h1>
+    <button class="nav-btn" id="nextMonth" aria-label="Следващ месец">›</button>
+  </header>
+
+  <main class="calendar">
+    <div class="weekdays" aria-hidden="true">
+      <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Нд</span>
+    </div>
+    <div class="days" id="daysGrid" role="grid"></div>
+  </main>
+
+  <footer class="bottom-bar">
+    <button class="today-btn" id="goToday">Днес</button>
+  </footer>
+
+  <script src="js/storage.js"></script>
+  <script src="js/dates.js"></script>
+  <script src="js/calendar.js"></script>
+</body>
+</html>

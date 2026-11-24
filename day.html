@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#2B4C7E">
+  <title>Ден</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-day">
+  <header class="day-bar">
+    <a class="back-link" id="backLink" href="index.html">‹ Календар</a>
+    <div class="day-arrows">
+      <a class="nav-btn" id="prevDay" href="#" aria-label="Предишен ден">‹</a>
+      <a class="nav-btn" id="nextDay" href="#" aria-label="Следващ ден">›</a>
+    </div>
+  </header>
+
+  <main class="day">
+    <section class="day-head">
+      <p class="day-number" id="dayNumber">1</p>
+      <div>
+        <p class="day-weekday" id="dayWeekday">Понеделник</p>
+        <p class="day-month" id="dayMonth">януари 2026</p>
+      </div>
+    </section>
+
+    <section class="events" aria-labelledby="eventsTitle">
+      <h2 id="eventsTitle" class="section-title">Събития</h2>
+      <ul class="event-list" id="eventList"></ul>
+      <p class="empty" id="emptyMsg">Няма събития за този ден. Добавете първото по-долу.</p>
+    </section>
+
+    <form class="event-form" id="eventForm" autocomplete="off">
+      <h2 class="section-title">Ново събитие</h2>
+      <label class="field">
+        <span>Час</span>
+        <input type="time" id="eventTime" name="time">
+      </label>
+      <label class="field">
+        <span>Заглавие</span>
+        <input type="text" id="eventTitle" name="title" maxlength="120" required placeholder="Напр. Среща с Иван">
+      </label>
+      <label class="field">
+        <span>Бележка</span>
+        <textarea id="eventNote" name="note" rows="2" maxlength="500" placeholder="По желание"></textarea>
+      </label>
+      <button type="submit" class="primary-btn">Добави събитие</button>
+    </form>
+  </main>
+
+  <script src="js/storage.js"></script>
+  <script src="js/dates.js"></script>
+  <script src="js/day.js"></script>
+</body>
+</html>
