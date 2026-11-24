@@ -11,26 +11,12 @@
   const hourSel = document.getElementById('eventHour');
   const minuteSel = document.getElementById('eventMinute');
 
-  // Падащи списъци за час във формат 24 часа (00–23) и минути през 5
-  function fillTimeSelects() {
-    hourSel.appendChild(new Option('цял ден', ''));
-    for (let h = 0; h < 24; h++) {
-      const v = String(h).padStart(2, '0');
-      hourSel.appendChild(new Option(v, v));
-    }
-    for (let m = 0; m < 60; m += 5) {
-      const v = String(m).padStart(2, '0');
-      minuteSel.appendChild(new Option(v, v));
-    }
-    updateMinuteState();
-  }
-
   // Минутите са активни само когато е избран час
   function updateMinuteState() {
     minuteSel.disabled = hourSel.value === '';
   }
   hourSel.addEventListener('change', updateMinuteState);
-  fillTimeSelects();
+  updateMinuteState();
 
   // Заглавна част
   document.getElementById('dayNumber').textContent = date.getDate();
@@ -44,6 +30,94 @@
   document.getElementById('prevDay').href = 'day.html?d=' + Dates.toKey(Dates.addDays(date, -1));
   document.getElementById('nextDay').href = 'day.html?d=' + Dates.toKey(Dates.addDays(date, 1));
   document.getElementById('backLink').href = 'index.html#' + key.slice(0, 7);
+
+  // Бутон „Добави в календара на телефона“ / „Премахни“
+  function phoneCalBlock(ev) {
+    const box = document.createElement('div');
+    box.className = 'cal-box';
+
+    function btn(text, cls, onClick) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = cls;
+      b.textContent = text;
+      b.addEventListener('click', onClick);
+      return b;
+    }
+    function row() {
+      const r = document.createElement('div');
+      r.className = 'cal-row';
+      for (let i = 0; i < arguments.length; i++) r.appendChild(arguments[i]);
+      return r;
+    }
+    function info(text) {
+      const p = document.createElement('p');
+      p.className = 'cal-info';
+      p.textContent = text;
+      return p;
+    }
+    function mark(value) {
+      Storage.updateEvent(key, ev.id, { phoneCal: value });
+      render();
+    }
+
+    // 1) Не е добавено
+    function showAdd() {
+      box.innerHTML = '';
+      box.appendChild(btn('Добави в календара на телефона', 'cal-btn', showChoice));
+    }
+
+    // 2) Избор на календар
+    function showChoice() {
+      box.innerHTML = '';
+      box.appendChild(info('Изберете календар. Напомнянето ще звъни в часа на събитието' +
+        (ev.time ? '.' : ' (за „цял ден“ — в 09:00).')));
+      box.appendChild(row(
+        btn('iPhone / Samsung / Outlook', 'cal-btn', function () {
+          PhoneCal.downloadIcs(key, ev);
+          mark('ics');
+        }),
+        btn('Google Календар', 'cal-btn', function () {
+          window.open(PhoneCal.googleUrl(key, ev), '_blank', 'noopener');
+          mark('google');
+        }),
+        btn('Отказ', 'cal-link', showAdd)
+      ));
+    }
+
+    // 3) Добавено
+    function showAdded() {
+      box.innerHTML = '';
+      const ok = document.createElement('span');
+      ok.className = 'cal-ok';
+      ok.textContent = '✓ В календара на телефона';
+      box.appendChild(row(ok, btn('Премахни', 'cal-link', showRemove)));
+    }
+
+    // 4) Премахване — изтрива се ръчно в календара на телефона
+    function showRemove() {
+      box.innerHTML = '';
+      box.appendChild(info('Сайтът няма достъп да трие от календара на телефона. ' +
+        'Отворете календара, намерете „' + ev.title + '“ на тази дата и го изтрийте. ' +
+        'След това натиснете „Готово“.'));
+      const buttons = [];
+      if (ev.phoneCal === 'google') {
+        const a = document.createElement('a');
+        a.className = 'cal-btn';
+        a.href = PhoneCal.googleDayUrl(key);
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = 'Отвори Google Календар';
+        buttons.push(a);
+      }
+      buttons.push(btn('Готово, изтрих го', 'cal-btn', function () { mark(null); }));
+      buttons.push(btn('Отказ', 'cal-link', showAdded));
+      box.appendChild(row.apply(null, buttons));
+    }
+
+    if (ev.phoneCal) showAdded(); else showAdd();
+    return box;
+  }
 
   function render() {
     const events = Storage.getEvents(key);
@@ -76,7 +150,9 @@
       del.textContent = 'Изтрий';
       del.setAttribute('aria-label', 'Изтрий „' + ev.title + '“');
       del.addEventListener('click', function () {
-        if (confirm('Да се изтрие ли „' + ev.title + '“?')) {
+        let msg = 'Да се изтрие ли „' + ev.title + '“?';
+        if (ev.phoneCal) msg += '\n\nТо е добавено в календара на телефона. Изтрийте го и там, иначе алармата ще звънне.';
+        if (confirm(msg)) {
           Storage.deleteEvent(key, ev.id);
           render();
         }
@@ -85,6 +161,7 @@
       li.appendChild(time);
       li.appendChild(body);
       li.appendChild(del);
+      li.appendChild(phoneCalBlock(ev));
       list.appendChild(li);
     });
   }

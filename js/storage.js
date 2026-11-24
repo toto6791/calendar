@@ -51,6 +51,15 @@ const Storage = (function () {
       data[dateKey] = list;
       return writeAll(data);
     },
+    updateEvent: function (dateKey, id, changes) {
+      const data = readAll();
+      const ev = (data[dateKey] || []).find(function (e) { return e.id === id; });
+      if (!ev) return false;
+      Object.keys(changes).forEach(function (k) {
+        if (changes[k] === null) delete ev[k]; else ev[k] = changes[k];
+      });
+      return writeAll(data);
+    },
     deleteEvent: function (dateKey, id) {
       const data = readAll();
       data[dateKey] = (data[dateKey] || []).filter(function (e) { return e.id !== id; });

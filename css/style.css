@@ -247,6 +247,37 @@ button, input, textarea { font: inherit; color: inherit; }
   cursor: pointer;
 }
 
+/* Календар на телефона */
+.cal-box { grid-column: 2 / -1; margin-top: -4px; }
+.cal-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.cal-btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--blue);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--blue);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+.cal-btn:active { background: var(--sky); }
+.cal-link {
+  min-height: 40px;
+  padding: 0 6px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.cal-ok { color: var(--blue); font-size: 0.9rem; font-weight: 600; }
+.cal-info { margin: 0 0 8px; font-size: 0.9rem; color: var(--muted); }
+
 .empty { color: var(--muted); margin: 8px 0 0; }
 .empty[hidden] { display: none; }
 
