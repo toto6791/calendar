@@ -10,6 +10,34 @@
   const form = document.getElementById('eventForm');
   const hourSel = document.getElementById('eventHour');
   const minuteSel = document.getElementById('eventMinute');
+  const filterSel = document.getElementById('filterSel');
+  const hiddenNote = document.getElementById('hiddenNote');
+  const authorLine = document.getElementById('authorLine');
+  const authorName = document.getElementById('authorName');
+  const nameField = document.getElementById('nameField');
+  const authorInput = document.getElementById('authorInput');
+
+  // Име на потребителя: полето се показва само докато няма запазено име
+  function showAuthor(editing) {
+    const name = Who.getName();
+    authorInput.value = name;
+    authorName.textContent = name;
+    const edit = editing || !name;
+    nameField.hidden = !edit;
+    authorLine.hidden = edit;
+    authorInput.required = edit;
+  }
+  document.getElementById('changeName').addEventListener('click', function () {
+    showAuthor(true);
+    authorInput.focus();
+    authorInput.select();
+  });
+  showAuthor(false);
+
+  filterSel.addEventListener('change', function () {
+    Who.setFilter(filterSel.value);
+    render();
+  });
 
   // Минутите са активни само когато е избран час
   function updateMinuteState() {
@@ -122,10 +150,29 @@
   }
 
   function render() {
-    const events = Storage.getEvents(key);
-    lastJson = JSON.stringify(events);
+    const all = Storage.getEvents(key);
+    lastJson = JSON.stringify(all);
+    const filter = Who.fillSelect(filterSel, Storage.getAuthors());
+    const events = all.filter(function (ev) { return Who.matches(ev, filter); });
+    const hiddenCount = all.length - events.length;
+
     list.innerHTML = '';
-    empty.hidden = events.length > 0;
+    empty.hidden = all.length > 0;
+
+    // Има събития, но филтърът ги скрива
+    hiddenNote.hidden = hiddenCount === 0;
+    hiddenNote.innerHTML = '';
+    if (hiddenCount) {
+      hiddenNote.appendChild(document.createTextNode(
+        (events.length ? 'Още ' : '') + hiddenCount +
+        (hiddenCount === 1 ? ' събитие е скрито' : ' събития са скрити') + ' от филтъра. '));
+      const showAll = document.createElement('button');
+      showAll.type = 'button';
+      showAll.className = 'cal-link';
+      showAll.textContent = 'Покажи всички';
+      showAll.addEventListener('click', function () { Who.setFilter('all'); render(); });
+      hiddenNote.appendChild(showAll);
+    }
 
     events.forEach(function (ev) {
       const li = document.createElement('li');
@@ -135,11 +182,19 @@
       time.className = 'event-time' + (ev.time ? '' : ' no-time');
       time.textContent = ev.time || 'цял ден';
 
+      const mine = Who.isMine(ev);
+      if (Who.getName()) li.classList.add(mine ? 'is-mine' : 'is-other');
+
       const body = document.createElement('div');
       const t = document.createElement('p');
       t.className = 'event-title';
       t.textContent = ev.title;
       body.appendChild(t);
+      const who = document.createElement('p');
+      who.className = 'event-author';
+      who.textContent = mine ? 'Добавено от вас' :
+        (ev.author ? 'Добавено от ' + ev.author : 'Без посочен автор');
+      body.appendChild(who);
       if (ev.note) {
         const n = document.createElement('p');
         n.className = 'event-note';
@@ -173,14 +228,23 @@
     e.preventDefault();
     const title = form.title.value.trim();
     if (!title) { form.title.focus(); return; }
+    if (!nameField.hidden) {
+      if (!authorInput.value.trim()) { authorInput.focus(); return; }
+      Who.setName(authorInput.value);
+    }
     const ok = Storage.addEvent(key, {
       time: hourSel.value ? hourSel.value + ':' + minuteSel.value : '',
       title: title,
-      note: form.note.value.trim()
+      note: form.note.value.trim(),
+      author: Who.getName()
     });
     if (ok) {
       form.reset();
       updateMinuteState();
+      showAuthor(false);
+      // Новото събитие да се вижда, дори ако е избран филтър за друг човек
+      const f = Who.getFilter();
+      if (f !== 'all' && f !== 'mine') Who.setFilter('all');
       render();
     }
   });

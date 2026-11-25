@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#2B4C7E">
   <meta name="referrer" content="no-referrer">
-  <title>Синхронизация</title>
+  <title>Настройки</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=6">
+  <link rel="stylesheet" href="css/style.css?v=7">
 </head>
 <body class="page-day page-settings">
   <header class="day-bar">
@@ -17,7 +17,21 @@
   </header>
 
   <main class="day">
-    <h1 class="settings-title">Синхронизация</h1>
+    <h1 class="settings-title">Настройки</h1>
+
+    <form class="event-form name-form" id="nameForm" autocomplete="off">
+      <h2 class="section-title">Вашето име</h2>
+      <p class="settings-lead">С това име се отбелязват събитията, които добавяте от това устройство.
+        Така всеки може да вижда само своите или всички общо. Използвайте едно и също име на всичките си устройства.</p>
+      <label class="field">
+        <span>Име</span>
+        <input type="text" id="userName" maxlength="40" required placeholder="Напр. Мария">
+      </label>
+      <button type="submit" class="primary-btn">Запази името</button>
+      <p class="form-msg" id="nameMsg" role="status"></p>
+    </form>
+
+    <h2 class="section-title">Синхронизация</h2>
     <p class="settings-lead">Събитията се пазят във файл <code>events.json</code> в частно хранилище в GitHub.
       Въведете едни и същи данни на телефона и на компютъра, и двете устройства ще виждат едни и същи събития.</p>
 
@@ -72,9 +86,10 @@
     <button type="button" class="cal-link forget-btn" id="forgetBtn" hidden>Премахни настройките от това устройство</button>
   </main>
 
-  <script src="js/github.js?v=6"></script>
-  <script src="js/storage.js?v=6"></script>
-  <script src="js/syncstatus.js?v=6"></script>
-  <script src="js/settings.js?v=6"></script>
+  <script src="js/github.js?v=7"></script>
+  <script src="js/who.js?v=7"></script>
+  <script src="js/storage.js?v=7"></script>
+  <script src="js/syncstatus.js?v=7"></script>
+  <script src="js/settings.js?v=7"></script>
 </body>
 </html>

@@ -2,7 +2,15 @@
 (function () {
   const grid = document.getElementById('daysGrid');
   const title = document.getElementById('monthTitle');
+  const filterSel = document.getElementById('filterSel');
+  const legend = document.getElementById('legend');
   const today = new Date();
+
+  // Избор „Всички / Само моите / на конкретен човек“
+  filterSel.addEventListener('change', function () {
+    Who.setFilter(filterSel.value);
+    render();
+  });
 
   // Месецът се помни в адреса (#2026-11), за да работи бутонът "Назад"
   function monthFromHash() {
@@ -24,6 +32,10 @@
     const year = current.getFullYear();
     const month = current.getMonth();
     title.textContent = Dates.MONTHS_TITLE[month] + ' ' + year;
+
+    const filter = Who.fillSelect(filterSel, Storage.getAuthors());
+    // Цветовете „мои / на други“ имат смисъл само в общия изглед
+    legend.hidden = !(filter === 'all' && Who.getName());
     document.title = 'Календар – ' + Dates.MONTHS_TITLE[month] + ' ' + year;
 
     // Седмицата започва от понеделник
@@ -47,7 +59,8 @@
         a.setAttribute('aria-current', 'date');
       }
 
-      const count = Storage.countEvents(key);
+      const shown = Storage.getEvents(key).filter(function (ev) { return Who.matches(ev, filter); });
+      const count = shown.length;
       a.setAttribute('aria-label', d.getDate() + ' ' + Dates.MONTHS[d.getMonth()] +
         (count ? ', събития: ' + count : ''));
 
@@ -58,7 +71,14 @@
       if (count) {
         const dots = document.createElement('span');
         dots.className = 'dots';
-        for (let j = 0; j < Math.min(count, 3); j++) dots.appendChild(document.createElement('i'));
+        // Първо моите, после на другите; най-много 3 точки
+        shown.sort(function (x, y) { return Who.isMine(y) - Who.isMine(x); });
+        for (let j = 0; j < Math.min(count, 3); j++) {
+          const dot = document.createElement('i');
+          // Без зададено име всички точки са с обичайния цвят
+          if (Who.getName()) dot.className = Who.isMine(shown[j]) ? 'mine' : 'other';
+          dots.appendChild(dot);
+        }
         a.appendChild(dots);
       }
       grid.appendChild(a);

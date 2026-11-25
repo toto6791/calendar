@@ -1,5 +1,18 @@
 /* Страница с настройки на синхронизацията — settings.html */
 (function () {
+  // Име на потребителя (пази се само на това устройство)
+  const nameForm = document.getElementById('nameForm');
+  const nameInput = document.getElementById('userName');
+  const nameMsg = document.getElementById('nameMsg');
+  nameInput.value = Who.getName();
+  nameForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const n = Who.setName(nameInput.value);
+    nameInput.value = n;
+    nameMsg.className = 'form-msg is-ok';
+    nameMsg.textContent = n ? 'Запазено. Новите ви събития ще се отбелязват като „' + n + '“.' : '';
+  });
+
   const form = document.getElementById('settingsForm');
   const msg = document.getElementById('formMsg');
   const btn = document.getElementById('saveBtn');

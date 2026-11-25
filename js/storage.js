@@ -169,6 +169,22 @@ const Storage = (function () {
     countEvents: function (dateKey) {
       return (view[dateKey] || []).length;
     },
+    // Всички хора, добавяли събития: { names: [...], hasUnknown: true/false }
+    getAuthors: function () {
+      const seen = {};
+      let unknown = false;
+      Object.keys(view).forEach(function (d) {
+        (view[d] || []).forEach(function (ev) {
+          const a = String(ev.author || '').trim();
+          if (!a) { unknown = true; return; }
+          const k = a.toLocaleLowerCase('bg');
+          if (!seen[k]) seen[k] = a;
+        });
+      });
+      const names = Object.keys(seen).map(function (k) { return seen[k]; })
+        .sort(function (a, b) { return a.localeCompare(b, 'bg'); });
+      return { names: names, hasUnknown: unknown };
+    },
     addEvent: function (dateKey, event) {
       event.id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
       event.created = Date.now();

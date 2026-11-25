@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=6">
+  <link rel="stylesheet" href="css/style.css?v=7">
 </head>
 <body class="page-calendar">
   <header class="month-bar">
@@ -16,6 +16,17 @@
     <h1 id="monthTitle" class="month-title">Месец</h1>
     <button class="nav-btn" id="nextMonth" aria-label="Следващ месец">›</button>
   </header>
+
+  <div class="filter-bar">
+    <label class="filter">
+      <span>Покажи:</span>
+      <select id="filterSel" aria-label="Кои събития да се показват"></select>
+    </label>
+    <p class="legend" id="legend" hidden>
+      <span><i class="dot mine"></i>мои</span>
+      <span><i class="dot other"></i>на други</span>
+    </p>
+  </div>
 
   <main class="calendar">
     <div class="weekdays" aria-hidden="true">
@@ -28,14 +39,15 @@
     <p class="sync-status" id="syncStatus"></p>
     <div class="bottom-actions">
       <button class="today-btn" id="goToday">Днес</button>
-      <a class="settings-link" href="settings.html">Синхронизация</a>
+      <a class="settings-link" href="settings.html">Настройки</a>
     </div>
   </footer>
 
-  <script src="js/github.js?v=6"></script>
-  <script src="js/storage.js?v=6"></script>
-  <script src="js/dates.js?v=6"></script>
-  <script src="js/calendar.js?v=6"></script>
-  <script src="js/syncstatus.js?v=6"></script>
+  <script src="js/github.js?v=7"></script>
+  <script src="js/storage.js?v=7"></script>
+  <script src="js/who.js?v=7"></script>
+  <script src="js/dates.js?v=7"></script>
+  <script src="js/calendar.js?v=7"></script>
+  <script src="js/syncstatus.js?v=7"></script>
 </body>
 </html>

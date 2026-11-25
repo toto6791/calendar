@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=6">
+  <link rel="stylesheet" href="css/style.css?v=7">
 </head>
 <body class="page-day">
   <header class="day-bar">
@@ -31,13 +31,29 @@
     <p class="sync-status" id="syncStatus"></p>
 
     <section class="events" aria-labelledby="eventsTitle">
-      <h2 id="eventsTitle" class="section-title">Събития</h2>
+      <div class="events-head">
+        <h2 id="eventsTitle" class="section-title">Събития</h2>
+        <label class="filter">
+          <span>Покажи:</span>
+          <select id="filterSel" aria-label="Кои събития да се показват"></select>
+        </label>
+      </div>
       <ul class="event-list" id="eventList"></ul>
       <p class="empty" id="emptyMsg">Няма събития за този ден. Добавете първото по-долу.</p>
+      <p class="hidden-note" id="hiddenNote" hidden></p>
     </section>
 
     <form class="event-form" id="eventForm" autocomplete="off">
       <h2 class="section-title">Ново събитие</h2>
+      <p class="author-line" id="authorLine" hidden>
+        Добавяте като <b id="authorName"></b>
+        <button type="button" class="cal-link" id="changeName">Смени</button>
+      </p>
+      <label class="field" id="nameField">
+        <span>Вашето име</span>
+        <input type="text" id="authorInput" name="author" maxlength="40" placeholder="Напр. Мария"
+          autocomplete="given-name">
+      </label>
       <fieldset class="field time-field">
         <legend>Час</legend>
         <div class="time-selects">
@@ -97,11 +113,12 @@
     </form>
   </main>
 
-  <script src="js/github.js?v=6"></script>
-  <script src="js/storage.js?v=6"></script>
-  <script src="js/dates.js?v=6"></script>
-  <script src="js/phonecal.js?v=6"></script>
-  <script src="js/day.js?v=6"></script>
-  <script src="js/syncstatus.js?v=6"></script>
+  <script src="js/github.js?v=7"></script>
+  <script src="js/storage.js?v=7"></script>
+  <script src="js/who.js?v=7"></script>
+  <script src="js/dates.js?v=7"></script>
+  <script src="js/phonecal.js?v=7"></script>
+  <script src="js/day.js?v=7"></script>
+  <script src="js/syncstatus.js?v=7"></script>
 </body>
 </html>

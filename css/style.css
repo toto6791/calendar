@@ -359,3 +359,61 @@ button, input, textarea { font: inherit; color: inherit; }
 .form-msg.is-error { color: var(--danger); font-weight: 600; }
 .forget-btn { margin-top: 16px; }
 .forget-btn[hidden] { display: none; }
+
+/* ===== Мои / общи събития ===== */
+:root { --other: #5B8FD6; }
+@media (prefers-color-scheme: dark) { :root { --other: #7FA6DD; } }
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 0 16px 12px;
+}
+.filter { display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 600; color: var(--muted); }
+.filter select {
+  min-height: 40px;
+  max-width: 60vw;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+}
+.legend { display: flex; gap: 14px; margin: 0; font-size: 0.85rem; color: var(--muted); }
+.legend[hidden] { display: none; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
+.dot.mine, .dots i.mine { background: var(--gold); }
+.dot.other, .dots i.other { background: var(--other); }
+.day-cell.today .dots i.other { background: var(--paper); }
+
+.events-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin: 28px 0 12px;
+}
+.events-head .section-title { margin: 0; }
+
+.event-author { margin: 2px 0 0; font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+.event.is-mine .event-author { color: var(--gold); }
+.event.is-other .event-author { color: var(--other); }
+
+.hidden-note { margin: 10px 0 0; font-size: 0.9rem; color: var(--muted); }
+.hidden-note[hidden] { display: none; }
+.hidden-note .cal-link { padding: 0; min-height: 0; }
+
+.author-line { margin: 0 0 14px; }
+.author-line[hidden], .field[hidden] { display: none; }
+.author-line .cal-link { min-height: 0; }
+
+.name-form { margin-bottom: 8px; }
+.name-form .settings-lead { color: var(--muted); font-size: 0.9rem; margin-bottom: 12px; }
