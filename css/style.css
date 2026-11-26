@@ -417,3 +417,35 @@ button, input, textarea { font: inherit; color: inherit; }
 
 .name-form { margin-bottom: 8px; }
 .name-form .settings-lead { color: var(--muted); font-size: 0.9rem; margin-bottom: 12px; }
+
+/* ===== Показване и копиране на ключа, сейф ===== */
+.field > label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
+.field .input-row { display: flex; gap: 6px; margin: 0; font-size: inherit; font-weight: inherit; }
+.field .input-row input { flex: 1; min-width: 0; }
+.small-btn {
+  min-height: 46px;
+  padding: 0 14px;
+  border: 1px solid var(--blue);
+  border-radius: var(--radius-s);
+  background: var(--paper);
+  color: var(--blue);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.small-btn:active { background: var(--sky); }
+.small-btn:disabled { opacity: 0.5; cursor: default; }
+.transfer { margin-bottom: 28px; }
+.transfer .event-form { padding-top: 12px; }
+.transfer-out { margin-top: 16px; }
+.qr { display: grid; place-items: center; padding: 12px; margin: 0 auto 12px; width: fit-content; border-radius: var(--radius-s); background: #fff; }
+.qr svg { display: block; width: 220px; height: 220px; }
+.code-label { margin: 16px 0 4px; font-weight: 600; }
+.unlock-code { margin: 0 0 8px; font-size: 1.7rem; font-weight: 800; letter-spacing: 0.08em; color: var(--blue); font-variant-numeric: tabular-nums; }
+#importCode { font-size: 1.2rem; letter-spacing: 0.06em; text-transform: uppercase; }
+#makeBtn:disabled { opacity: 0.5; cursor: default; }
+@media (max-width: 440px) {
+  .field .input-row { flex-wrap: wrap; }
+  .field .input-row input { flex-basis: 100%; }
+  .field .input-row .small-btn { flex: 1; }
+}

@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=7">
+  <link rel="stylesheet" href="css/style.css?v=8">
 </head>
 <body class="page-day page-settings">
   <header class="day-bar">
@@ -30,6 +30,39 @@
       <button type="submit" class="primary-btn">Запази името</button>
       <p class="form-msg" id="nameMsg" role="status"></p>
     </form>
+
+    <section class="transfer" id="transfer" aria-labelledby="transferTitle">
+      <h2 class="section-title" id="transferTitle">Прехвърляне на друго устройство</h2>
+      <p class="settings-lead">Пренесете настройките заедно с ключа на телефона, без да ги преписвате.
+        Ключът е заключен с код, който се вижда само на този екран.</p>
+
+      <form class="event-form" id="transferImport" hidden>
+        <p class="settings-lead"><b>Получихте настройки от друго устройство.</b>
+          Въведете кода за отключване, който се показва на другото устройство.</p>
+        <label class="field">
+          <span>Код за отключване</span>
+          <input type="text" id="importCode" required autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="XXXX-XXXX-XXXX">
+        </label>
+        <button type="submit" class="primary-btn">Приложи настройките</button>
+      </form>
+
+      <div class="event-form" id="transferMake">
+        <p class="settings-lead" id="makeHint">Натиснете на устройството, където синхронизацията вече работи.</p>
+        <button type="button" class="primary-btn" id="makeBtn">Създай линк за прехвърляне</button>
+        <div class="transfer-out" id="transferOut" hidden>
+          <div class="qr" id="qrBox" role="img" aria-label="QR код с линка за прехвърляне"></div>
+          <p class="settings-lead">Сканирайте кода с камерата на телефона или изпратете линка на себе си
+            (напр. по Viber или имейл). Отворете го в браузъра, който ползвате за календара.</p>
+          <button type="button" class="small-btn" id="copyLink">Копирай линка</button>
+          <p class="code-label">Код за отключване — въведете го на телефона:</p>
+          <p class="unlock-code" id="unlockCode"></p>
+          <p class="cal-info">Не изпращайте кода заедно с линка. Ако затворите страницата, просто създайте нов линк.</p>
+        </div>
+      </div>
+
+      <p class="form-msg" id="transferMsg" role="status"></p>
+    </section>
+
 
     <h2 class="section-title">Синхронизация</h2>
     <p class="settings-lead">Събитията се пазят във файл <code>events.json</code> в частно хранилище в GitHub.
@@ -64,10 +97,14 @@
         <span>Хранилище за данните</span>
         <input type="text" id="repo" required autocapitalize="off" spellcheck="false" placeholder="kalendar-data">
       </label>
-      <label class="field">
-        <span>Ключ (token)</span>
-        <input type="password" id="token" required autocapitalize="off" spellcheck="false" autocomplete="off" placeholder="github_pat_…">
-      </label>
+      <div class="field">
+        <label for="token">Ключ (token)</label>
+        <span class="input-row">
+          <input type="password" id="token" required autocapitalize="off" spellcheck="false" autocomplete="off" placeholder="github_pat_…">
+          <button type="button" class="small-btn" id="tokenShow">Покажи</button>
+          <button type="button" class="small-btn" id="tokenCopy">Копирай</button>
+        </span>
+      </div>
       <details class="advanced">
         <summary>Допълнителни</summary>
         <label class="field">
@@ -90,6 +127,8 @@
   <script src="js/who.js?v=7"></script>
   <script src="js/storage.js?v=7"></script>
   <script src="js/syncstatus.js?v=7"></script>
-  <script src="js/settings.js?v=7"></script>
+  <script src="js/settings.js?v=8"></script>
+  <script src="js/qrcode.js?v=8"></script>
+  <script src="js/transfer.js?v=8"></script>
 </body>
 </html>
